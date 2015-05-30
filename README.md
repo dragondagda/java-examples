@@ -1,1 +1,1 @@
-# java-examples
+# Simple JDBC Example
