@@ -10,6 +10,12 @@ public class Main {
 		
 		System.out.println("# Statement");
 		System.out.println("3rd party Authentications available: " + connection.getAllAuthentications());
+		System.out.println("-> add authentication 'facebook'");
+		connection.addAuthentication("facebook");
+		System.out.println("3rd party Authentications available: " + connection.getAllAuthentications());
+		System.out.println("-> remove authentication 'facebook'");
+		connection.deleteAuthentication("facebook");
+		System.out.println("3rd party Authentications available: " + connection.getAllAuthentications());
 		System.out.println();
 		
 		System.out.println("# Prepared statements");

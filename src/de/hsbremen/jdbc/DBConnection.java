@@ -33,6 +33,26 @@ public class DBConnection {
 			System.err.println("Creating prepared login Statement failed :-/");
 		}
 	}
+	
+	public void addAuthentication(final String type){
+		try {
+			final Statement statement = this.connection.createStatement();
+			statement.executeUpdate("INSERT INTO authentifizierung VALUES('" + type + "')");
+		} catch (SQLException e) {
+			System.err.println("Creating Statement failed :-/");
+		}
+		
+	}
+	
+	public void deleteAuthentication(final String type){
+		try {
+			final Statement statement = this.connection.createStatement();
+			statement.executeUpdate("DELETE FROM authentifizierung WHERE typ='" + type + "'");
+		} catch (SQLException e) {
+			System.err.println("Creating Statement failed :-/");
+		}
+		
+	}
 
 	public List<String> getAllAuthentications(){
 		final List<String> authentications = new ArrayList<>();
