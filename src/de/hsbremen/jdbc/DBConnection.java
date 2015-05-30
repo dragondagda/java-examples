@@ -1,0 +1,76 @@
+package de.hsbremen.jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class DBConnection {
+
+	private Connection connection;
+	private PreparedStatement loginStatement;
+	
+	public DBConnection() {
+		try {
+			this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tech_groups", 
+					"techgroups_dev", "G3kcu5cMTf1DtKBM3lkv");
+		} catch (SQLException e) {
+			System.err.println("Connection wasn't established :-/");
+		}
+		this.createPreparedStatements();
+	}
+	
+	private void createPreparedStatements() {
+		try {
+			this.loginStatement = this.connection.prepareStatement("SELECT * "
+					+ "FROM mitglied WHERE username=? AND passwort=?");
+		} catch (SQLException e) {
+			System.err.println("Creating prepared login Statement failed :-/");
+		}
+	}
+
+	public List<String> getAllAuthentications(){
+		final List<String> authentications = new ArrayList<>();
+		try {
+			final Statement statement = this.connection.createStatement();
+			final ResultSet resultSet = statement.executeQuery("SELECT * FROM authentifizierung");
+			while(resultSet.next()){
+				authentications.add(resultSet.getString(1));
+			}
+		} catch (SQLException e) {
+			System.err.println("Creating Statement failed :-/");
+		}
+		
+		return authentications;
+	}
+	
+	public boolean login(final String user, final String password){
+		boolean loginCorrect = false;
+		try {
+			this.loginStatement.setString(1, user);
+			this.loginStatement.setString(2, password);
+			final ResultSet resultSet = this.loginStatement.executeQuery();
+			loginCorrect = resultSet.next();
+		} catch (SQLException e) {
+			System.err.println("Usage of prepared Statement failed :-/");
+		}
+		
+		return loginCorrect;
+	}
+	
+	
+	public void close(){
+		if(this.connection != null){
+			try {
+				this.connection.close();
+			} catch (SQLException e) {
+				System.err.println("Connection couldn't be closed :-/");
+			}
+		}
+	}
+}
