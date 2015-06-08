@@ -38,6 +38,7 @@ public class DBConnection {
 		try {
 			final Statement statement = this.connection.createStatement();
 			statement.executeUpdate("INSERT INTO authentifizierung VALUES('" + type + "')");
+			statement.close();
 		} catch (SQLException e) {
 			System.err.println("Creating Statement failed :-/");
 		}
@@ -48,6 +49,7 @@ public class DBConnection {
 		try {
 			final Statement statement = this.connection.createStatement();
 			statement.executeUpdate("DELETE FROM authentifizierung WHERE typ='" + type + "'");
+			statement.close();
 		} catch (SQLException e) {
 			System.err.println("Creating Statement failed :-/");
 		}
@@ -62,6 +64,7 @@ public class DBConnection {
 			while(resultSet.next()){
 				authentications.add(resultSet.getString(1));
 			}
+			statement.close();
 		} catch (SQLException e) {
 			System.err.println("Creating Statement failed :-/");
 		}
@@ -87,6 +90,7 @@ public class DBConnection {
 	public void close(){
 		if(this.connection != null){
 			try {
+				this.loginStatement.close();
 				this.connection.close();
 			} catch (SQLException e) {
 				System.err.println("Connection couldn't be closed :-/");
