@@ -1,4 +1,4 @@
-package servlet_example;
+package de.hsbremen;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,9 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.annotation.WebServlet;
 
-@WebServlet(description = "Hello World Servlet", urlPatterns = { "" })
 public class HelloServlet extends HttpServlet {
 
 	/**
